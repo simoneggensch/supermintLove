@@ -11,6 +11,9 @@
         These are done at McCarthy's
     </h1>
     <ul id="quizList">
+        {% for quiz in quizzes %}
+            <li>{{ quiz['title'] }}, created by {{ quiz['authors'] }}</p>
+        {% endfor %}
     </ul>
 {% endblock %}
 
