@@ -1,7 +1,10 @@
 {% extends "base.html" %} 
 
-{% block scripts %}
-<script src = "scripts/scripts.js"></script>
+{% block scriptsTop %}
+<script>
+    const n_quizzes = {{ quizzes | length }}
+</script>
+<script type="text/javascript" src="{{ url_for('static', filename='scripts/McCarthys.js') }}"></script>
 {% endblock %}
 
 {% block title %}McCarthys{% endblock %}
@@ -11,10 +14,14 @@
         These are done at McCarthy's
     </h1>
     <ul id="quizList">
-        {% for quiz in quizzes %}
-            <li>{{ quiz['title'] }}, created by {{ quiz['authors'] }}</p>
+        {% for i in range(quizzes|length) %}
+            <li id="quiz_{{i}}"></p>
         {% endfor %}
     </ul>
+{% endblock %}
+
+{% block scriptsEnd %}
+<script>displayQuizzes({{ quizzes | tojson }})</script>
 {% endblock %}
 
 

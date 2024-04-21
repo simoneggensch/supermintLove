@@ -1,7 +1,8 @@
 <!doctype html>
 <html>
     <head>
-        {% block scripts %} {% endblock %}
+        <script type="text/javascript" src="{{ url_for('static', filename='scripts/scripts.js') }}"></script>
+        {% block scriptsTop %} {% endblock %}
         <title>
             {% block title %} {% endblock %}
         </title>
@@ -10,5 +11,6 @@
     </head>
     <body>
         {% block content %} {% endblock %}
+        {% block scriptsEnd %} {% endblock %}
     </body>
 </html>

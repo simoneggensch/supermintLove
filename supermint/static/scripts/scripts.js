@@ -1,8 +1,11 @@
+
 function formatAuthors(authors) {
-    console.log("in format Authors")
-    return("hello there");
+    authors = createList(authors)
+    console.log("in format Authors with authors " + authors)
     var outputString = "";
-    for (var i; i < authors.length; i++) {
+    console.log(authors.length)
+    for (var i = 0; i < authors.length; i++) {
+        console.log(i, " is called ", authors[i])
         outputString += authors[i];
         if (i == authors.length - 2) {
             outputString += " and ";
@@ -15,8 +18,6 @@ function formatAuthors(authors) {
     }
 }
 
-for (quiz in quizzes) {
-    console.log(quiz);
+function createList(inputString) {
+    return inputString.substring(1, inputString.length-1).split(", ")
 }
-
-console.log("js found");
