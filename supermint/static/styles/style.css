@@ -1,3 +1,12 @@
 body {
     color:#a10606;
 }
+
+.quizLong {
+    color: blue;
+    background-color: aqua;
+}
+
+.hide {
+    display: none;
+}

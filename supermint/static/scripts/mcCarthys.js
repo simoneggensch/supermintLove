@@ -10,14 +10,14 @@ function displayQuizzes(quizzes) {
 
 
 function displayQuiz(quiz) {
-     return "<div class='quiz'>" +
-        "<div class='quizShort'>" +
+     return "<div class='quiz' onclick=showHide(quizLong_" + quiz.quiz_id + ")>" +
+        "<div class='quizShort')>" +
             quiz.title + " hosted by " + formatAuthors(quiz.authors) + ": " + quiz.google_slides_url +
         "</div>" + 
         "<div class='dateHosted'>" +
             "Hosted on " + quiz.date_hosted +
         "</div>" +
-        "<div class='quizLong'>" +
+        "<div class='quizLong hide' id=quizLong_" + quiz.quiz_id +">" +
             createSubtable(quiz) +
         "</div>" +
     "</div>"

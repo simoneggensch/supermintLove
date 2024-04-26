@@ -28,3 +28,11 @@ function tableRow(content) {
 function tableCell(content) {
     return "<td>" + content + "</td>"
 }
+
+function showHide(div) {
+    if(div.classList.contains("hide")) {
+        div.classList.remove("hide")
+    } else {
+        div.classList.add("hide")
+    }
+}
