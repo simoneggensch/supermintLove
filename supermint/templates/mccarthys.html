@@ -3,6 +3,8 @@
 {% block scriptsTop %}
 <script>
     const n_quizzes = {{ quizzes | length }}
+    // this is for debug in console
+    const test_quizzes = {{ quizzes|tojson }}
 </script>
 <script type="text/javascript" src="{{ url_for('static', filename='scripts/McCarthys.js') }}"></script>
 {% endblock %}
@@ -13,15 +15,11 @@
     <h1>
         These are done at McCarthy's
     </h1>
-    <ul id="quizList">
-        {% for i in range(quizzes|length) %}
-            <li id="quiz_{{i}}"></p>
-        {% endfor %}
-    </ul>
+    <div id = "quizzes"></div>
 {% endblock %}
 
 {% block scriptsEnd %}
-<script>displayQuizzes({{ quizzes | tojson }})</script>
+<script>displayQuizzes({{ quizzes|tojson }})</script>
 {% endblock %}
 
 
