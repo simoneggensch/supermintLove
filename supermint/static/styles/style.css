@@ -1,12 +1,43 @@
 body {
     color:#a10606;
+    background-color: rgb(192, 191, 191);
+    --fontsize: 16pt;
+
+    font-size:var(--fontsize);
+}
+
+.quiz {
+    padding: 5pt;
+    padding-bottom: 0pt;
+    margin: 10pt;
+    margin-bottom: 0pt;
+}
+
+.quizShort {
+    background-color: rgb(117, 142, 151);
+    border: black;
+    border-width: 1pt;
+}
+
+.dateHosted {
+    padding-left: 15pt;
+    font-size: calc(0.7*var(--fontsize));
 }
 
 .quizLong {
     color: blue;
     background-color: aqua;
+    
 }
+
+.quizShort:hover {
+    cursor: pointer;
+  }
+  
 
 .hide {
     display: none;
+}
+
+.quizLong > table > tbody > tr > td {
 }

@@ -3,6 +3,7 @@
 {% block scriptsTop %}
 <script>
     const n_quizzes = {{ quizzes | length }}
+    var areQuizzesOpened = false
     // this is for debug in console
     const test_quizzes = {{ quizzes|tojson }}
 </script>
@@ -15,6 +16,9 @@
     <h1>
         These are done at McCarthy's
     </h1>
+    <div>
+        <button id="openQuizzesBtn" onclick="openCloseAll()">Open All Quizzes</button>
+    </div>
     <div id = "quizzes"></div>
 {% endblock %}
 

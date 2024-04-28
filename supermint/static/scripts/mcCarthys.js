@@ -13,10 +13,10 @@ function displayQuiz(quiz) {
      return "<div class='quiz' onclick=showHide(quizLong_" + quiz.quiz_id + ")>" +
         "<div class='quizShort')>" +
             quiz.title + " hosted by " + formatAuthors(quiz.authors) + ": " + quiz.google_slides_url +
-        "</div>" + 
-        "<div class='dateHosted'>" +
+            "<div class='dateHosted'>" +
             "Hosted on " + quiz.date_hosted +
         "</div>" +
+        "</div>" + 
         "<div class='quizLong hide' id=quizLong_" + quiz.quiz_id +">" +
             createSubtable(quiz) +
         "</div>" +
@@ -38,16 +38,35 @@ function createSubtable(quiz) {
     returnString += "<tr>"
     returnString += tableHeaderCell("Title")
     for(var i=0; i < n_topics; i++) {
-        returnString += tableHeaderCell(titles[i])
+        returnString += tableCell(titles[i])
     }
     returnString += "</tr>"
     returnString += "<tr>"
     returnString += tableHeaderCell("Category")
     for(var i=0; i < n_topics; i++) {
-        returnString += tableHeaderCell(topics[i])
+        returnString += tableCell(topics[i])
     }
     returnString += "</tr>"
     returnString += "</table>"
 
     return returnString
+}
+
+function openCloseAll() {
+    var allQuizzDescriptions = document.getElementsByClassName("quizLong")
+    var openQuizzesBtn = document.getElementById("openQuizzesBtn")
+    if (areQuizzesOpened) {
+        for(var i = 0; i < allQuizzDescriptions.length; i++) {
+            allQuizzDescriptions[i].classList.add("hide")
+        }
+        areQuizzesOpened = false
+        openQuizzesBtn.innerHTML="Open All Quizzes"
+    } else {
+        for(var i = 0; i < allQuizzDescriptions.length; i++) {
+            allQuizzDescriptions[i].classList.remove("hide")
+        }
+        areQuizzesOpened = true
+        openQuizzesBtn.innerHTML="Close All Quizzes"
+
+    }
 }
