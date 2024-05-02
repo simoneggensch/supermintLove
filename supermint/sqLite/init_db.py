@@ -8,145 +8,109 @@ with open('schema.sql') as f:
 # Open a cursor to perform database operations
 cur = connection.cursor()
 
+# Create round topics
+cur.executemany('INSERT INTO topic (name)'
+            'VALUES (?)',
+            [
+                ('Geography',),
+                ('History',),
+                ('MovieSeries',),
+                ('Guesstimate',),
+                ('Other',)
+            ]
+            )
+
 
 # create some quizzes
-cur.execute('INSERT INTO quiz (title, round_titles, round_topics, google_slides_url, date_hosted)'
-            'VALUES (?, ?, ?, ?, ?)',
-            ('my first quiz',
-             '{first_round, second_round}',
-             '{Geography, History}',
-             'fake_url.com',
-             '2019-01-01')
+cur.executemany('INSERT INTO quiz (title, google_slides_url, date_hosted)'
+            'VALUES (?, ?, ?)',
+            [
+                ('my first quiz',
+                'fake_url.com',
+                '2019-01-01'),
+
+                ('my second quiz',
+                'fake_url1.com',
+                '2020-01-02'),
+
+                ('my third quiz',
+                'fake_url2.com',
+                '2023-01-03'),
+                
+                ('my third quiz',
+                'fake_url3.com',
+                '2024-01-04')
+            ]
             )
 
-cur.execute('INSERT INTO quiz (title, round_titles, round_topics, google_slides_url, date_hosted)'
-            'VALUES (?, ?, ?, ?, ?)',
-            ('my second quiz',
-             '{first_round, second_round}',
-             '{Geography, History}',
-             'fake_url1.com',
-             '2020-01-02')
-            )
-
-cur.execute('INSERT INTO quiz (title, round_titles, round_topics, google_slides_url, date_hosted)'
-            'VALUES (?, ?, ?, ?, ?)',
-            ('my third quiz',
-             '{first_round, second_round}',
-             '{Geography, History}',
-             'fake_url2.com',
-             '2023-01-03')
-            )
-
-cur.execute('INSERT INTO quiz (title, round_titles, round_topics, google_slides_url, date_hosted)'
-            'VALUES (?, ?, ?, ?, ?)',
-            ('my third quiz',
-             '{first_round, second_round}',
-             '{Geography, History}',
-             'fake_url3.com',
-             '2024-01-04')
-            )
+cur.executemany('INSERT INTO round (name, description, round_number, quiz_id, topic_id)'
+                'VALUES (?, ?, ?, ?, ?)',
+                [
+                    ('first round', 'first description of a round', '1', '1', '1'),
+                    ('second round', 'second description of a round', '2', '1', '2'),
+                    ('Movies & Series', 'This describes movies', '1', '2', '3'),
+                    ('Guess guess', 'brief', '2', '2', '4'),
+                    ('round 3', 'first description of a round', '3', '2', '5'),
+                    ('round 1', 'first description of a round', '1', '3', '1'),
+                    ('round 2', 'first description of a round', '2', '3', '1'),
+                    ('round 3', 'first description of a round', '3', '3', '1'),
+                    ('first round', 'first description of a round', '1', '4', '1'),
+                    ('second round', 'first description of a round', '2', '4', '1'),
+                    ('third round', 'first description of a round', '3', '4', '1'),
+                    ('fourth round', 'first description of a round', '4', '4', '1'),
+                    ('fifth round', 'first description of a round', '5', '4', '1'),
+                ]
+                )
 
 # Create QuizLocations
-cur.execute('INSERT INTO quiz_location (name)'
+cur.executemany('INSERT INTO quiz_location (name)'
             'VALUES (?)',
-            (('McCarthys',))
-            )
-
-cur.execute('INSERT INTO quiz_location (name)'
-            'VALUES (?)',
-            (('Giraf',))
+            [
+                ('McCarthys',),
+                ('Giraf',)
+            ]
             )
 
 
 # Create some users
-cur.execute('INSERT INTO user (first_name, last_name, pseudonym, email)'
+cur.executemany('INSERT INTO user (first_name, last_name, pseudonym, email)'
             'VALUES (?, ?, ?, ?)',
-            ('Simon',
-             'Eggenschwiler',
-             'me',
-             'me@gmail.com')
-            )
+            [
+                ('Simon',
+                'Eggenschwiler',
+                'me',
+                'me@gmail.com'),
+                
+                ('Etienne',
+                'Batori',
+                'you',
+                'you@gmail.com'),
 
-cur.execute('INSERT INTO user (first_name, last_name, pseudonym, email)'
-            'VALUES (?, ?, ?, ?)',
-            ('Etienne',
-             'Batori',
-             'you',
-             'you@gmail.com')
-            )
+                ('Meg',
+                'Pitt',
+                'Mumu',
+                'megi@gmail.com'),
 
-cur.execute('INSERT INTO user (first_name, last_name, pseudonym, email)'
-            'VALUES (?, ?, ?, ?)',
-            ('Meg',
-             'Pitt',
-             'Mumu',
-             'megi@gmail.com')
-            )
-
-cur.execute('INSERT INTO user (first_name, last_name, pseudonym, email)'
-            'VALUES (?, ?, ?, ?)',
-            ('Bobo',
-             'Momo',
-             'Risbobo',
-             'ris@gmail.com')
+                ('Bobo',
+                'Momo',
+                'Risbobo',
+                'ris@gmail.com')
+            ]
             )
 
 # Link quizz to users in table author
-cur.execute('INSERT INTO author (quiz_id, user_id, quiz_location_id)'
+cur.executemany('INSERT INTO author (quiz_id, user_id, quiz_location_id)'
             'VALUES (?, ?, ?)',
-            ('1',
-             '1',
-             '1')
-            )
-
-cur.execute('INSERT INTO author (quiz_id, user_id, quiz_location_id)'
-            'VALUES (?, ?, ?)',
-            ('1',
-             '2',
-             '1')
-            )
-
-
-cur.execute('INSERT INTO author (quiz_id, user_id, quiz_location_id)'
-            'VALUES (?, ?, ?)',
-            ('2',
-             '3',
-             '1')
-            )
-
-cur.execute('INSERT INTO author (quiz_id, user_id, quiz_location_id)'
-            'VALUES (?, ?, ?)',
-            ('2',
-             '4',
-             '1')
-            )
-
-cur.execute('INSERT INTO author (quiz_id, user_id, quiz_location_id)'
-            'VALUES (?, ?, ?)',
-            ('3',
-             '1',
-             '1')
-            )
-
-cur.execute('INSERT INTO author (quiz_id, user_id, quiz_location_id)'
-            'VALUES (?, ?, ?)',
-            ('3',
-             '2',
-             '1')
-            )
-
-cur.execute('INSERT INTO author (quiz_id, user_id, quiz_location_id)'
-            'VALUES (?, ?, ?)',
-            ('3',
-             '3',
-             '1')
-            )
-
-cur.execute('INSERT INTO author (quiz_id, user_id, quiz_location_id)'
-            'VALUES (?, ?, ?)',
-            ('4',
-             '4',
-             '1')
+            [
+                ('1', '1', '1'),
+                ('1', '2', '1'),
+                ('2', '3', '1'),
+                ('2', '4', '1'),
+                ('3', '1', '1'),
+                ('3', '2', '1'),
+                ('3', '3', '1'),
+                ('4', '4', '1')
+            ]
             )
 
 connection.commit()

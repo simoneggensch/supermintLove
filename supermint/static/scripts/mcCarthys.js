@@ -25,9 +25,8 @@ function displayQuiz(quiz) {
 
 function createSubtable(quiz) {
 
-    const titles = createList(quiz.round_titles)
-    const topics = createList(quiz.round_topics)
-    const n_topics = titles.length
+    const rounds = quiz.rounds
+    const n_topics = rounds.length
     returnString = "<table>"
     returnString += "<tr>"
     returnString += tableHeaderCell("")
@@ -38,13 +37,13 @@ function createSubtable(quiz) {
     returnString += "<tr>"
     returnString += tableHeaderCell("Title")
     for(var i=0; i < n_topics; i++) {
-        returnString += tableCell(titles[i])
+        returnString += tableCell(rounds[i].name)
     }
     returnString += "</tr>"
     returnString += "<tr>"
     returnString += tableHeaderCell("Category")
     for(var i=0; i < n_topics; i++) {
-        returnString += tableCell(topics[i])
+        returnString += tableCell(createToolTip(rounds[i].description) + rounds[i].topic)
     }
     returnString += "</tr>"
     returnString += "</table>"
@@ -70,3 +69,9 @@ function openCloseAll() {
 
     }
 }
+
+
+function search(searchFieldDiv) {
+    console.log(searchFieldDiv.value)
+}
+

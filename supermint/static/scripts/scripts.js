@@ -36,3 +36,8 @@ function showHide(div) {
         div.classList.add("hide")
     }
 }
+
+
+function createToolTip(innerText) {
+    return "<span class='quizDescription'>" + innerText + "</span>"
+}

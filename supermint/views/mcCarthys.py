@@ -23,16 +23,35 @@ def home():
 
     quizzes = conn.execute(quizQuery).fetchall()
 
-    # fetch authors
+    # fetch authors and topics
     for quiz in quizzes:
-        hostsQuery = f'''SELECT * from user u
-        INNER JOIN author h on h.user_id=u.id
-        WHERE h.quiz_id = {quiz['quiz_id']}'''
-        
-        hosts = conn.execute(hostsQuery).fetchall()
-
+        hosts = fetchAuthors(quiz['quiz_id'], conn)
         quiz["authors"] = [host["pseudonym"] for host in hosts]
+
+        rounds = fetchRounds(quiz['quiz_id'], conn)
+        print(rounds)
+        quiz["rounds"] = rounds
+
+        print(rounds)
 
     conn.close()
 
     return render_template("mccarthys.html", quizzes=quizzes)
+
+
+def fetchAuthors(quiz_id, conn):
+        hostsQuery = f'''SELECT * from user u
+        INNER JOIN author auth on auth.user_id=u.id
+        WHERE auth.quiz_id = {quiz_id}'''
+        
+        return conn.execute(hostsQuery).fetchall()
+
+def fetchRounds(quiz_id, conn):
+        roundsQuery = f'''SELECT t.name as topic, r.* from round r
+        INNER JOIN topic t on t.id = r.topic_id
+        WHERE quiz_id = {quiz_id}
+        ORDER BY round_number'''
+
+
+        return conn.execute(roundsQuery).fetchall()
+
