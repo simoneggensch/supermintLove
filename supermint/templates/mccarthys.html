@@ -12,6 +12,10 @@
 
 {% block title %}McCarthys{% endblock %}
 
+{% block css %}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/mcCarthys.css')}}">
+{% endblock %}
+
 {% block content %}
     <h1>
         These are done at McCarthy's

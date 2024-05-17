@@ -37,7 +37,12 @@ function showHide(div) {
     }
 }
 
-
 function createToolTip(innerText) {
     return "<span class='quizDescription'>" + innerText + "</span>"
+}
+
+function addInDiv(element) {
+    div = document.createElement("div")
+    div.appendChild(element)
+    return div
 }

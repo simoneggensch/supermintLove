@@ -18,8 +18,7 @@ CREATE TABLE IF NOT EXISTS quiz (id INTEGER PRIMARY KEY,
 CREATE TABLE IF NOT EXISTS user (id INTEGER PRIMARY KEY,
                                  first_name text NOT NULL,
                                  last_name text NOT NULL,
-                                 pseudonym text NOT NULL,
-                                 email text
+                                 pseudonym text NOT NULL
                                 );
 
 
@@ -43,7 +42,7 @@ CREATE TABLE IF NOT EXISTS author (id INTEGER PRIMARY KEY,
 
 CREATE TABLE IF NOT EXISTS round (id INTEGER PRIMARY KEY,
                                  name text,
-                                 description text,
+                                 description text DEFAULT 'Description unknown',
                                  round_number INTEGER NOT NULL,
                                  quiz_id INTEGER NOT NULL,
                                  topic_id INTEGER NOT NULL,

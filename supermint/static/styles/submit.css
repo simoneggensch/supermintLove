@@ -1,0 +1,44 @@
+
+#addNewUser {
+    border: black;
+    background-color: #dbdbdb;
+    border-style: solid;
+    border-width: 2pt;
+    position: absolute;
+    max-width: 220pt;
+    left: 118pt;
+    top: 2pt;
+    padding: 5pt;
+    z-index: 100;
+}
+
+
+#listOfRounds {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.round {
+    display: flex;
+    flex-direction: column;
+    padding-right: 10px;
+    width: 250px;
+}
+
+.round div {
+    margin-bottom: 10px;
+}
+
+.round input,
+.round select,
+.roundDescription {
+    width: 100%;
+    padding-right: 5px;
+    box-sizing: border-box;
+}
+
+.roundDescription {
+    height: 100px;
+}

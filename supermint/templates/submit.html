@@ -1,0 +1,71 @@
+{% extends "base.html" %} 
+
+{% block scriptsTop %}
+<script>
+    // this is for debug in console
+    const users = {{ users|tojson }}
+    const topics = {{ topics|tojson }}
+    var number_of_authors = 0
+</script>
+<script type="text/javascript" src="{{ url_for('static', filename='scripts/submit.js') }}"></script>
+{% endblock %}
+
+{% block title %}McCarthys{% endblock %}
+
+{% block css %}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/submit.css')}}">
+{% endblock %}
+
+{% block content %}
+    <h1>
+        This is the submit page
+    </h1>
+
+
+    <div>
+        Quiz Authors:
+        <div id="listOfAuthors">
+        </div>
+    </div>
+
+    
+    <div>
+        <button onclick="additionalAuthor(users)">Add another Author</button>
+        <button onclick="removeLastAuthor()">Remove Last Author</button>
+    </div>
+
+    <div class="relative">
+        <button onclick="showHideAddNewUser()" id="showHideNewUserButton">Add new User</button>
+        <form method="post" id="addNewQuiz">
+            <div id="addNewUser" class="hide">
+                <p>First Name: <input type="text" name="firstName" value="{{ request.form['firstName'] }}"></p>
+                <p>Last Name: <input type="text" name="lastName" value="{{ request.form['lastName'] }}"></p>
+                <p>Pseudonym: <input type="text" name="pseudonym" value="{{ request.form['pseudonym'] }}"></p>
+
+                <p><input type="submit" name="action" value="Submit New User"></p>
+            </div>
+        </form>
+
+    </div>
+    <div>
+        Round topics:
+        <div id="listOfRounds">
+        </div>
+    </div>
+
+    
+    <div>
+        <button onclick="additionalRound()">Add another Round</button>
+        <button onclick="removeLastRound()">Remove Last Round</button>
+    </div>
+
+{% endblock %}
+
+{% block scriptsEnd %}
+<script>additionalAuthor(users)</script>
+<script>additionalRound()</script>
+<script>additionalRound()</script>
+<script>additionalRound()</script>
+{% endblock %}
+
+

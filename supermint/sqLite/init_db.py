@@ -53,12 +53,18 @@ cur.executemany('INSERT INTO round (name, description, round_number, quiz_id, to
                     ('round 3', 'first description of a round', '3', '2', '5'),
                     ('round 1', 'first description of a round', '1', '3', '1'),
                     ('round 2', 'first description of a round', '2', '3', '1'),
-                    ('round 3', 'first description of a round', '3', '3', '1'),
-                    ('first round', 'first description of a round', '1', '4', '1'),
-                    ('second round', 'first description of a round', '2', '4', '1'),
-                    ('third round', 'first description of a round', '3', '4', '1'),
-                    ('fourth round', 'first description of a round', '4', '4', '1'),
-                    ('fifth round', 'first description of a round', '5', '4', '1'),
+                    ('round 3', 'first description of a round', '3', '3', '1')
+                ]
+                )
+
+cur.executemany('INSERT INTO round (name, round_number, quiz_id, topic_id)'
+                'VALUES (?, ?, ?, ?)',
+                [
+                    ('first round', '1', '4', '1'),
+                    ('second round', '2', '4', '1'),
+                    ('third round', '3', '4', '1'),
+                    ('fourth round', '4', '4', '1'),
+                    ('fifth round', '5', '4', '1'),
                 ]
                 )
 
@@ -73,28 +79,24 @@ cur.executemany('INSERT INTO quiz_location (name)'
 
 
 # Create some users
-cur.executemany('INSERT INTO user (first_name, last_name, pseudonym, email)'
-            'VALUES (?, ?, ?, ?)',
+cur.executemany('INSERT INTO user (first_name, last_name, pseudonym)'
+            'VALUES (?, ?, ?)',
             [
                 ('Simon',
                 'Eggenschwiler',
-                'me',
-                'me@gmail.com'),
+                'me'),
                 
                 ('Etienne',
                 'Batori',
-                'you',
-                'you@gmail.com'),
+                'you'),
 
                 ('Meg',
                 'Pitt',
-                'Mumu',
-                'megi@gmail.com'),
+                'Mumu'),
 
                 ('Bobo',
                 'Momo',
-                'Risbobo',
-                'ris@gmail.com')
+                'Risbobo')
             ]
             )
 
