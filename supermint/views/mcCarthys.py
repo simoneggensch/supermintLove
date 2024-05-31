@@ -18,7 +18,7 @@ def home():
     # fetch quizzes
     quizQuery = ''' SELECT q.id as quiz_id, q.* FROM author a
     INNER JOIN quiz q on a.quiz_id = q.id
-    WHERE a.quiz_location_id=1 group by q.id
+    WHERE q.location_id=1 group by q.id
     ORDER BY date_hosted DESC'''
 
     quizzes = conn.execute(quizQuery).fetchall()
@@ -29,10 +29,7 @@ def home():
         quiz["authors"] = [host["pseudonym"] for host in hosts]
 
         rounds = fetchRounds(quiz['quiz_id'], conn)
-        print(rounds)
         quiz["rounds"] = rounds
-
-        print(rounds)
 
     conn.close()
 

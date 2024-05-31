@@ -1,5 +1,5 @@
 
-#addNewUser {
+.addNewValues {
     border: black;
     background-color: #dbdbdb;
     border-style: solid;
@@ -41,4 +41,8 @@
 
 .roundDescription {
     height: 100px;
+}
+
+#googleDriveURLInput {
+    width: 200pt;
 }

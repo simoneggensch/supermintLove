@@ -8,6 +8,7 @@
     var number_of_authors = 0
 </script>
 <script type="text/javascript" src="{{ url_for('static', filename='scripts/submit.js') }}"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 {% endblock %}
 
 {% block title %}McCarthys{% endblock %}
@@ -21,7 +22,21 @@
         This is the submit page
     </h1>
 
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <div class="errorMessages">
+                {% for message in messages %}
+                    <p>{{message}}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
 
+
+    <div>
+        Quiz Name:
+        <input type="text" id="quizTitleInput">
+    </div>
     <div>
         Quiz Authors:
         <div id="listOfAuthors">
@@ -30,22 +45,19 @@
 
     
     <div>
-        <button onclick="additionalAuthor(users)">Add another Author</button>
-        <button onclick="removeLastAuthor()">Remove Last Author</button>
+        <button type="button" onclick="additionalAuthor(users)">Add another Author</button>
+        <button type="button" onclick="removeLastAuthor()">Remove Last Author</button>
     </div>
 
     <div class="relative">
-        <button onclick="showHideAddNewUser()" id="showHideNewUserButton">Add new User</button>
-        <form method="post" id="addNewQuiz">
-            <div id="addNewUser" class="hide">
-                <p>First Name: <input type="text" name="firstName" value="{{ request.form['firstName'] }}"></p>
-                <p>Last Name: <input type="text" name="lastName" value="{{ request.form['lastName'] }}"></p>
-                <p>Pseudonym: <input type="text" name="pseudonym" value="{{ request.form['pseudonym'] }}"></p>
+        <button type="button" onclick="showHideAddNewUser()" id="showHideNewUserButton">Add new User</button>
+        <div id="addNewUser" class="hide addNewValues">
+            <p>First Name: <input type="text" name="firstName"></p>
+            <p>Last Name: <input type="text" name="lastName"></p>
+            <p>Pseudonym: <input type="text" name="pseudonym"></p>
 
-                <p><input type="submit" name="action" value="Submit New User"></p>
-            </div>
-        </form>
-
+            <p><button type="submit" onclick="submitNewUser()">Submit New User</button></p>
+        </div>
     </div>
     <div>
         Round topics:
@@ -53,11 +65,37 @@
         </div>
     </div>
 
-    
-    <div>
-        <button onclick="additionalRound()">Add another Round</button>
-        <button onclick="removeLastRound()">Remove Last Round</button>
+    <div class="relative">
+        <button type="button" onclick="showHideAddNewTopic()" id="showHideNewTopicButton">Add new Topic</button>
+        <div id="addNewTopic" class="hide addNewValues">
+            <p>Topic name: <input type="text" name="topicName"></p>
+            <p><button type="submit" onclick="submitNewTopic()">Submit New Topic</button></p>
+        </div>
     </div>
+    <div>
+        <button type="button" onclick="additionalRound()">Add another Round</button>
+        <button type="button" onclick="removeLastRound()">Remove Last Round</button>
+    </div>
+    <div>
+        Location:
+        <select name="quizLocation" id="quizLocation">
+            {% for location in locations %}
+                <option value="{{ location.id }}">{{ location.name }}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div>
+        Google Drive Link:
+        <input type="text" name="googleDriveURL" id="googleDriveURLInput">
+    </div>
+
+    <div>
+        Date of Hosting: 
+        <input type="date" id="hostDateInput">
+    </div>
+
+    <button type="submit" onclick="submitNewQuiz()">Submit New Quiz</button>
 
 {% endblock %}
 

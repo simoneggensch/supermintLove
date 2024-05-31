@@ -8,6 +8,17 @@ with open('schema.sql') as f:
 # Open a cursor to perform database operations
 cur = connection.cursor()
 
+
+# Create QuizLocations
+cur.executemany('INSERT INTO location (name)'
+            'VALUES (?)',
+            [
+                ('McCarthys',),
+                ('Giraf',)
+            ]
+            )
+
+
 # Create round topics
 cur.executemany('INSERT INTO topic (name)'
             'VALUES (?)',
@@ -22,22 +33,26 @@ cur.executemany('INSERT INTO topic (name)'
 
 
 # create some quizzes
-cur.executemany('INSERT INTO quiz (title, google_slides_url, date_hosted)'
-            'VALUES (?, ?, ?)',
+cur.executemany('INSERT INTO quiz (title, location_id, google_slides_url, date_hosted)'
+            'VALUES (?, ?, ?, ?)',
             [
                 ('my first quiz',
+                '1',
                 'fake_url.com',
                 '2019-01-01'),
 
                 ('my second quiz',
+                '1',
                 'fake_url1.com',
                 '2020-01-02'),
 
                 ('my third quiz',
+                '1',
                 'fake_url2.com',
                 '2023-01-03'),
                 
                 ('my third quiz',
+                '1',
                 'fake_url3.com',
                 '2024-01-04')
             ]
@@ -68,16 +83,6 @@ cur.executemany('INSERT INTO round (name, round_number, quiz_id, topic_id)'
                 ]
                 )
 
-# Create QuizLocations
-cur.executemany('INSERT INTO quiz_location (name)'
-            'VALUES (?)',
-            [
-                ('McCarthys',),
-                ('Giraf',)
-            ]
-            )
-
-
 # Create some users
 cur.executemany('INSERT INTO user (first_name, last_name, pseudonym)'
             'VALUES (?, ?, ?)',
@@ -101,17 +106,17 @@ cur.executemany('INSERT INTO user (first_name, last_name, pseudonym)'
             )
 
 # Link quizz to users in table author
-cur.executemany('INSERT INTO author (quiz_id, user_id, quiz_location_id)'
-            'VALUES (?, ?, ?)',
+cur.executemany('INSERT INTO author (quiz_id, user_id)'
+            'VALUES (?, ?)',
             [
-                ('1', '1', '1'),
-                ('1', '2', '1'),
-                ('2', '3', '1'),
-                ('2', '4', '1'),
-                ('3', '1', '1'),
-                ('3', '2', '1'),
-                ('3', '3', '1'),
-                ('4', '4', '1')
+                ('1', '1'),
+                ('1', '2'),
+                ('2', '3'),
+                ('2', '4'),
+                ('3', '1'),
+                ('3', '2'),
+                ('3', '3'),
+                ('4', '4')
             ]
             )
 
