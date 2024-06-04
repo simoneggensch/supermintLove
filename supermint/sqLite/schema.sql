@@ -32,7 +32,7 @@ CREATE TABLE IF NOT EXISTS user (id INTEGER PRIMARY KEY,
 
 
 CREATE TABLE IF NOT EXISTS topic (id INTEGER PRIMARY KEY,
-                                 name text NOT NULL
+                                 name text NOT NULL UNIQUE
                                 );
 
 

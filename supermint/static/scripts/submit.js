@@ -1,21 +1,25 @@
-function additionalAuthor(users) {
+function additionalAuthor() {
     var select = document.createElement("select")
     select.classList.add("author")
-    formatUserSelect(select, users)
+    formatUserSelect(select)
     listOfAuthors.append(select)
 }
 
-function formatUserSelect(selectElem, users) {
+function formatUserSelect(selectElem) {
     var innerHTML = "";
     for (user of users) {
-        var option = document.createElement("option");
-        option.innerHTML = getUniqueName(user.id, users)
-        option.value = user.id
-        selectElem.add(option)
+        addUsersToSelector(selectElem, user)
     } 
 }
 
-function getUniqueName(userId, users) {
+function addUsersToSelector(selectElem, user) {
+    var option = document.createElement("option");
+    option.innerHTML = getUniqueName(user.id)
+    option.value = user.id
+    selectElem.add(option)
+}
+
+function getUniqueName(userId) {
     var user = users.filter(u => u.id == userId)[0];
     var usersWithSameName = users.filter(u => u.first_name == user.first_name);
     if ( usersWithSameName.length == 1) {
@@ -32,7 +36,6 @@ function removeLastAuthor() {
 
 
 function showHideAddNewUser() {
-
     if(addNewUser.classList.contains("hide")) {
         showHideNewUserButton.innerHTML="Hide New User Window"    
     } else {
@@ -51,7 +54,7 @@ function showHideAddNewTopic() {
     showHide(addNewTopic);
 }
 
-function additionalRound(users) {
+function additionalRound() {
     var roundForm = createRoundForm();
     listOfRounds.append(roundForm)
 }
@@ -71,25 +74,32 @@ function createRoundForm() {
 function createRoundTitle() {
     var title = document.createElement("input")
     title.name = "name"
+    title.placeholder="Round Title"
     return title
 }
 
 function createRoundTopic() {
     var select = document.createElement("select")
     select.name = "topic"
+    select.classList.add("topic")
+    addOptionsToTopicsSelect(select)
+    return select
+}
+
+function addOptionsToTopicsSelect(selectElem) {
     for (topic of topics) {
         var option = document.createElement("option");
         option.innerHTML = topic.name
         option.value = topic.id
-        select.add(option)
+        selectElem.add(option)
     }
-    return select
 }
 
 function createRoundDescription() {
     var description = document.createElement("input")
     description.name = "description"
     description.classList.add("roundDescription")
+    description.placeholder="Optional Longer Description"
     return description
 }
 
@@ -99,8 +109,20 @@ function removeLastRound() {
 }
 
 function submitNewUser() {
-    const formData = getNewUserData()
-    submitDataAndReload(formData, "/submit/user")
+    const formData = getNewUserData();
+    $.ajax({
+        url: "/submit/user",
+        type: 'POST',
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: function(response) {
+            alert("New User Added with name " + formData.get("firstName") + " " + formData.get("lastName"))
+            users = response
+            showHideAddNewUser()
+            updateAuthorSelectors()
+        }
+    });
 }
 
 function getNewUserData() {
@@ -113,9 +135,42 @@ function getNewUserData() {
     return formData
 }
 
+function addNewUserToPage(newUser) {
+    for (selectElem of listOfAuthors.children) {
+        addUsersToSelector(selectElem, newUser)
+    }
+}
+
+
+function updateAuthorSelectors() {
+    selectedAuthors = []
+    while (listOfAuthors.children.length != 0) {
+        selectedAuthors.push(listOfAuthors.children[listOfAuthors.children.length-1].value)
+        removeLastAuthor()
+    }
+
+    while (selectedAuthors.length != 0) {
+        additionalAuthor()
+        listOfAuthors.children[listOfAuthors.children.length-1].value = selectedAuthors.pop()
+    }
+}
+
 function submitNewTopic() {
     const formData = getNewTopicData()
-    submitDataAndReload(formData, "/submit/topic")
+
+    $.ajax({
+        url: "/submit/topic",
+        type: 'POST',
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: function(response) {
+            alert("New Topic added: " + formData.get("topicName"))
+            topics = response
+            updateTopicSelectors()
+            showHideAddNewTopic()
+        }
+    });
 }
 
 function getNewTopicData() {
@@ -124,6 +179,21 @@ function getNewTopicData() {
     input = topicElem.getElementsByTagName("input")[0]
     formData.append(input.name, input.value)
     return formData
+}
+
+function updateTopicSelectors() {
+    for (selectElem of document.getElementsByClassName("topic")) {
+        const currVal = selectElem.value
+        emptySelect(selectElem)
+        addOptionsToTopicsSelect(selectElem)
+        selectElem.value = currVal
+    }
+}
+
+function emptySelect(selectElem) {
+    while (selectElem.options.length > 0) {
+        selectElem.remove(0)
+    }
 }
 
 function submitNewQuiz() {

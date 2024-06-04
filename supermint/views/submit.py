@@ -18,18 +18,24 @@ def home():
 def newUser():
     conn = get_db_connection()
     conn.row_factory=dict_factory
-    validity = addNewUser(request.form, conn)
+    addNewUser(request.form, conn)
+    users = fetchUsers(conn)
     conn.close()
-    return redirect(validity)
+    return jsonify(users)
 
 
 @submit.route("/topic", methods=["POST"])
 def newTopic():
     conn = get_db_connection()
     conn.row_factory=dict_factory
-    validity = addNewTopic(request.form, conn)
+    try:
+        addNewTopic(request.form, conn)
+    except:
+        print("Error happened")
+
+    topics = fetchTopics(conn)
     conn.close()
-    return redirect(validity)
+    return jsonify(topics)
 
 
 @submit.route("/quiz", methods=["POST"])
@@ -41,20 +47,28 @@ def newQuiz():
     return redirect(validity)
 
 def render_page(conn):
-    # fetch users
+    users = fetchUsers(conn)
+    topics = fetchTopics(conn)
+    locations = fetchLocations(conn)
+
+
+    return render_template("submit.html", users=users, topics=topics, locations=locations)
+
+
+def fetchUsers(conn):
     userQuery = ''' SELECT id, * FROM user
     ORDER BY first_name'''
-    users = conn.execute(userQuery).fetchall()
+    return conn.execute(userQuery).fetchall()
 
+def fetchTopics(conn):
     topicQuery = ''' SELECT id, * FROM topic
     ORDER BY name'''
-    topics = conn.execute(topicQuery).fetchall()
+    return conn.execute(topicQuery).fetchall()
 
-    
+def fetchLocations(conn):
     locationQuery = ''' SELECT id, * FROM location
     ORDER BY name'''
-    locations = conn.execute(locationQuery).fetchall()
-    return render_template("submit.html", users=users, topics=topics, locations=locations)
+    return conn.execute(locationQuery).fetchall()
 
 
 
@@ -65,13 +79,10 @@ def addNewUser(requestForm, conn):
 
     validInput=True
     if not firstName or firstName == '':
-        flash("First Name is required")
         validInput=False
     if not lastName or lastName == '':
-        flash("Last Name needed")
         validInput=False
     if not pseudonym or pseudonym == '':
-        flash("Pseudonym required")
         validInput=False
 
     if validInput:
@@ -80,15 +91,11 @@ def addNewUser(requestForm, conn):
 
         conn.execute(newUserQuery, (firstName, lastName, pseudonym))
         conn.commit()
-        flash("New User Added")
-
-    return validInput
 
 def addNewTopic(requestForm, conn):
     topic = requestForm["topicName"]
     validInput=True
     if not topic or topic == '':
-        flash("Topic Name is required")
         validInput=False
 
     if validInput:
@@ -97,17 +104,13 @@ def addNewTopic(requestForm, conn):
 
         conn.execute(newUserQuery, (topic,))
         conn.commit()
-        flash("New Topic Added")
 
     return validInput
 
 def addNewQuiz(requestForm, conn):
-    print(requestForm)
     quizId = addQuizToDb(requestForm["quizTitle"], requestForm["locationId"], requestForm["googleDriveLink"], requestForm["hostDate"], conn)
     addRoundsToDb(json.loads(requestForm["rounds"]), conn, quizId)
     addAuthorsToDb(requestForm["authors"].strip().split(","), quizId, conn)
-
-    print("should commit now")
     conn.commit()
     
 def addQuizToDb(quizTitle, locationId, googleDriveURL, hostDate, conn):
