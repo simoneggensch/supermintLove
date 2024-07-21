@@ -13,7 +13,6 @@ def home():
 
     # create connection to DB
     conn = get_db_connection()
-    conn.row_factory=dict_factory
 
     # fetch quizzes
     quizQuery = ''' SELECT q.id as quiz_id, q.* FROM author a
@@ -37,18 +36,18 @@ def home():
 
 
 def fetchAuthors(quiz_id, conn):
-        hostsQuery = f'''SELECT * from user u
+        hostsQuery = '''SELECT * from user u
         INNER JOIN author auth on auth.user_id=u.id
-        WHERE auth.quiz_id = {quiz_id}'''
+        WHERE auth.quiz_id = ?'''
         
-        return conn.execute(hostsQuery).fetchall()
+        return conn.execute(hostsQuery, (quiz_id,)).fetchall()
 
 def fetchRounds(quiz_id, conn):
-        roundsQuery = f'''SELECT t.name as topic, r.* from round r
+        roundsQuery = '''SELECT t.name as topic, r.* from round r
         INNER JOIN topic t on t.id = r.topic_id
-        WHERE quiz_id = {quiz_id}
+        WHERE quiz_id = ?
         ORDER BY round_number'''
 
 
-        return conn.execute(roundsQuery).fetchall()
+        return conn.execute(roundsQuery, (quiz_id,)).fetchall()
 

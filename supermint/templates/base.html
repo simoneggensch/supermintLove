@@ -11,7 +11,30 @@
         {% block css %} {% endblock %}
     </head>
     <body>
-        {% block content %} {% endblock %}
-        {% block scriptsEnd %} {% endblock %}
+
+    <div>
+        <a href="/">Supermint.love home</a>
+    </div>
+    <div id="auth">
+        {% if current_user.is_authenticated %}
+            <a href="/logout">logout</a>
+        {% else %}
+            <a href="/login">login</a>
+            <a href="/signup">Sign up</a>
+        {% endif %}
+    </div>
+
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <div class="errorMessages">
+                {% for message in messages %}
+                    <p>{{message}}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+
+    {% block content %} {% endblock %}
+    {% block scriptsEnd %} {% endblock %}
     </body>
 </html>

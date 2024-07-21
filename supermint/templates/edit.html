@@ -3,8 +3,6 @@
 {% block scriptsTop %}
 <script>
     // this is for debug in console
-    var users = {{ users|tojson }}
-    var topics = {{ topics|tojson }}
     var number_of_authors = 0
 </script>
 <script type="text/javascript" src="{{ url_for('static', filename='scripts/submit.js') }}"></script>
@@ -21,8 +19,12 @@
 
 {% block content %}
     <h1>
-        This is the submit page
+        This is the edit page
     </h1>
+    
+    <div>Select a quiz:
+        <select name="quizSelect" id="quizSelect"></select>
+    </div>
 
     <div>
         Quiz Name:
@@ -91,10 +93,7 @@
 {% endblock %}
 
 {% block scriptsEnd %}
-<script>additionalAuthor()</script>
-<script>additionalRound()</script>
-<script>additionalRound()</script>
-<script>additionalRound()</script>
+<script>loadQuizzes()</script>
 {% endblock %}
 
 

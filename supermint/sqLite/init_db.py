@@ -1,5 +1,7 @@
 import sqlite3
+import os
 
+os.remove("database.db")
 connection = sqlite3.connect('database.db')
 
 with open('schema.sql') as f:

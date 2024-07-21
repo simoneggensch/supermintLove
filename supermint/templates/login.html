@@ -1,0 +1,25 @@
+{% extends "base.html" %} 
+
+{% block scriptsTop %}
+{% endblock %}
+
+{% block title %}Log in to supermint.love{% endblock %}
+
+{% block css %}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/submit.css')}}">
+{% endblock %}
+
+{% block content %}
+<form method="POST">
+    <label for="username">Username: </label><br>
+    <input type="text" id="username" name="username"><br>
+    <label for="password">Password: </label><br>
+    <input type="password" id="password" name="password"><br>
+    <button type="submit">Login</button>
+</form>
+{% endblock %}
+
+{% block scriptsEnd %}
+{% endblock %}
+
+

@@ -1,0 +1,33 @@
+{% extends "base.html" %} 
+
+{% block scriptsTop %}
+<script>
+    const username = {{ username|tojson }}
+</script>
+{% endblock %}
+
+{% block title %}Log in to supermint.love{% endblock %}
+
+{% block css %}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/submit.css')}}">
+{% endblock %}
+
+{% block content %}
+<form method="POST">
+    <label for="username">Username: </label><br>
+    <input type="text" id="username" name="username"><br>
+    <label for="password1">Password: </label><br>
+    <input type="password" id="password1" name="password1"><br>
+    <label for="password2">Confirm password: </label><br>
+    <input type="password" id="password2" name="password2"><br>
+    <button type="submit">Login</button>
+</form>
+{% endblock %}
+
+{% block scriptsEnd %}
+<script>
+    document.getElementById("username").value = username;
+</script>
+{% endblock %}
+
+

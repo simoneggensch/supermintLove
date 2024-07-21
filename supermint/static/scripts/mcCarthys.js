@@ -12,7 +12,7 @@ function displayQuizzes(quizzes) {
 function displayQuiz(quiz) {
      return "<div class='quiz' onclick=showHide(quizLong_" + quiz.quiz_id + ")>" +
         "<div class='quizShort')>" +
-            quiz.title + " hosted by " + formatAuthors(quiz.authors) + ": " + quiz.google_slides_url +
+            "<a href=\"" + quiz.google_slides_url + "\" target=\"_blank\">" + quiz.title + "</a> hosted by " + formatAuthors(quiz.authors) + ": " + quiz.google_slides_url +
             "<div class='dateHosted'>" +
             "Hosted on " + quiz.date_hosted +
         "</div>" +

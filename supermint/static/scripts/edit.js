@@ -1,3 +1,16 @@
+function loadQuizzes() {
+    $.ajax({
+        url: "/edit/quiz",
+        type: 'GET',
+        contentType: false,
+        success: function(response) {
+            console.log(response)
+        }
+    })
+}
+
+
+
 function additionalAuthor() {
     var select = document.createElement("select")
     select.classList.add("author")
@@ -218,25 +231,16 @@ function getAuthors() {
     for (let authorElem of authorElems) {
         authors = authors.concat([authorElem.value])
     }
-    const duplicates = authors.filter((item, index) => authors.indexOf(item) !== index);
-
-    if (duplicates.length > 0) {
-        const errorText = "At least one author has been entered multiple times"
-        alert(errorText)
-        throw Error(errorText)
-
-    }
     return authors
 }
 
 function getRounds() {
     rounds = []
-    console.log("in get rounds")
     for (let roundElem of listOfRounds.children) {
         var round = {}
         for (let divElem of roundElem.children) {
             let elem = divElem.children[0]
-            round[elem.name] = getValueFromInputField(elem, elem.name + " for round " + (rounds.length + 1), elem.name == 'description')
+            round[elem.name] = getValueFromInputField(elem, elem.name + " for round " + (rounds.length + 1), elem.name = 'quizLocation')
         }
         rounds = rounds.concat([round])
     }
@@ -248,7 +252,7 @@ function getValueFromInputField(inputField, fieldName = "a value", allowEmpty=fa
     if (!allowEmpty && value == '') {
         const errorText = fieldName + ' is missing'
         alert(errorText)
-        throw Error(errorText)
+        throw Error(fieldName + ' is missing')
     }
     return value
 }

@@ -8,7 +8,6 @@ submit = Blueprint("submit", __name__)
 @submit.route("/", methods=["GET"])
 def home():
     conn = get_db_connection()
-    conn.row_factory=dict_factory
 
     pageToRender = render_page(conn)
     conn.close()
@@ -17,7 +16,6 @@ def home():
 @submit.route("/user", methods=["POST"])
 def newUser():
     conn = get_db_connection()
-    conn.row_factory=dict_factory
     addNewUser(request.form, conn)
     users = fetchUsers(conn)
     conn.close()
@@ -27,7 +25,6 @@ def newUser():
 @submit.route("/topic", methods=["POST"])
 def newTopic():
     conn = get_db_connection()
-    conn.row_factory=dict_factory
     try:
         addNewTopic(request.form, conn)
     except:
@@ -41,7 +38,6 @@ def newTopic():
 @submit.route("/quiz", methods=["POST"])
 def newQuiz():
     conn = get_db_connection()
-    conn.row_factory=dict_factory
     validity = addNewQuiz(request.form, conn)
     conn.close()
     return redirect(validity)

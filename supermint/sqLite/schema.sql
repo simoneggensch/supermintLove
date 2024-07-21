@@ -1,13 +1,3 @@
-DROP TABLE IF EXISTS quiz;
-DROP TABLE IF EXISTS user;
-DROP TABLE IF EXISTS topic;
-DROP TABLE IF EXISTS quiz_location;
-DROP TABLE IF EXISTS location;
-DROP TABLE IF EXISTS author;
-DROP TABLE IF EXISTS round;
-
-
-
 
 CREATE TABLE IF NOT EXISTS location (id INTEGER PRIMARY KEY,
                                  name text NOT NULL
@@ -53,3 +43,9 @@ CREATE TABLE IF NOT EXISTS round (id INTEGER PRIMARY KEY,
                                  FOREIGN KEY(quiz_id) REFERENCES quiz(id),
                                  FOREIGN KEY(topic_id) REFERENCES topic(id)
                                 );
+
+
+CREATE TABLE IF NOT EXISTS website_user (id INTEGER PRIMARY KEY,
+                                 username text UNIQUE,
+                                 password text,
+                                 admin boolean NOT NULL DEFAULT 0)
